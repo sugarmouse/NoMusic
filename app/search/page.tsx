@@ -33,3 +33,6 @@ const Search = async ({ searchParams }: SearchProps) => {
 };
 
 export default Search;
+
+// no cache
+export const revalidate = 0;
