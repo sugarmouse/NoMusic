@@ -6,6 +6,7 @@ import SupabaseProvider from "@/providers/SupabaseProvider";
 import UserProvider from "@/providers/UserProvider";
 import ModalProvider from "@/providers/ModalProvider"
 import ToasterProvider from "@/providers/ToasterProvider";
+import getSongsbyUserId from "@/actions/getSongsByUserID";
 
 const font = Figtree({ subsets: ["latin"] });
 
@@ -14,11 +15,14 @@ export const metadata: Metadata = {
   description: "A Notion UI-like music app",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const userSong = await getSongsbyUserId();
+
   return (
     <html lang="en">
       <body className={font.className}>
@@ -26,10 +30,13 @@ export default function RootLayout({
         <SupabaseProvider>
           <UserProvider>
             <ModalProvider />
-            <Sidebar>{children}</Sidebar>
+            <Sidebar songs={userSong}>{children}</Sidebar>
           </UserProvider>
         </SupabaseProvider>
       </body>
     </html>
   );
 }
+
+// no cache
+export const revalidate = 0;

@@ -47,6 +47,7 @@ export default function UploadModal() {
 
       if (!imageFile || !songFile || !user) {
         toast.error("Missing fields");
+        // TODO: remove debug info
         console.log(user)
         console.log(songFile)
         console.log(imageFile)
@@ -55,6 +56,7 @@ export default function UploadModal() {
 
       const uniqueId = uniqid();
       // upload song
+      // TODO(fix): supabase not support chinese characters in file name
       const { data: songData, error: songError } = await supabaseClient.storage
         .from("songs")
         .upload(`song-${values.title}-${uniqueId}`, songFile, {
@@ -64,6 +66,8 @@ export default function UploadModal() {
 
       if (songError) {
         setIsLoading(true);
+        // TODO: remove debug info
+        console.log(songError);
         return toast.error("Failed song upload");
       }
 

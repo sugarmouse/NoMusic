@@ -6,15 +6,20 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { useUser } from "@/hooks/useUser";
 import useAuthModal from "@/hooks/useAuthModal";
 import useUploadModal from "@/hooks/useUploadModal";
+import { Song } from "@/types";
+import MediaItem from "./MediaItem";
 
-export default function Library() {
+interface LibraryProps {
+  songs: Song[];
+}
 
+export default function Library({ songs }: LibraryProps) {
   const authModal = useAuthModal();
   const uploadModal = useUploadModal();
-  const {user, subscription} = useUser();
+  const { user, subscription } = useUser();
 
   const onClick = () => {
-    if(!user) {
+    if (!user) {
       return authModal.onOpen();
     }
 
@@ -31,11 +36,19 @@ export default function Library() {
           <TbPlaylist className="text-neutral-400" size={26} />
           <p className="text-neutral-400 font-medium text-md">Your Library</p>
         </div>
-        <AiOutlinePlus onClick={onClick} size={20} className="text-neutral-400 cursor-pointer hover:text-white transition"/>
+        <AiOutlinePlus
+          onClick={onClick}
+          size={20}
+          className="text-neutral-400 cursor-pointer hover:text-white transition"
+        />
       </div>
 
-      <div className="flex flex-col gap-y-2 mt-4 px-3"> 
-        List of songs
+      <div className="flex flex-col gap-y-2 mt-4 px-3">
+        {songs.map(song => <MediaItem 
+          onClick = {()=>{}}
+          key={song.id}
+          data={song}
+        />)}
       </div>
     </div>
   );
