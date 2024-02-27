@@ -1,6 +1,7 @@
 "use client";
 
 import SongItem from "@/components/SongItem";
+import useOnPlay from "@/hooks/useOnPlay";
 import { Song } from "@/types";
 
 interface PageContentProps {
@@ -8,6 +9,9 @@ interface PageContentProps {
 }
 
 export default function PageContent({ songs }: PageContentProps) {
+
+  const onPlay = useOnPlay(songs);
+
   if (songs.length === 0) {
     return <div className="mt-4 text-neutal-400">No songs avaliable</div>;
   }
@@ -19,7 +23,7 @@ export default function PageContent({ songs }: PageContentProps) {
       "
     >
       {songs.map((song) => {
-        return <SongItem key={song.id} onClick={()=>{}} data={song} />;
+        return <SongItem key={song.id} onClick={(id:string)=>{onPlay(id)}} data={song} />;
       })}
     </div>
   );
